@@ -1,0 +1,39 @@
+.mdoc-container {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .mdoc-title {
+    text-align: center;
+    color: #333;
+  }
+  
+  .mdoc-document {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .mdoc-section, .mdoc-namespace, .mdoc-element, .mdoc-field {
+    margin-bottom: 10px;
+  }
+  
+  .mdoc-data {
+    display: inline-block;
+    max-width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    background-color: #e6e6e6;
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+  
+  .mdoc-field strong {
+    color: #555;
+  }
