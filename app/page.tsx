@@ -27,7 +27,7 @@ export default function Home() {
     setTaxIdCode(randomTaxIdCode);
   };
   // 處理表單提交事件
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 阻止表單默認提交行為
 
     // 準備要發送的數據
