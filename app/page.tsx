@@ -46,7 +46,7 @@ export default function Home() {
 
     // 發送 POST 請求到 Flask API
     try {
-      const response = await fetch('http://localhost:3000/api/generate_mdoc', {
+      const response = await fetch('/api/generate_mdoc', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
