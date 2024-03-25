@@ -3,8 +3,10 @@ import base64
 from flask import Flask, request, jsonify
 from pymdoccbor.mdoc.issuer import MdocCborIssuer
 from cbor2 import CBORTag
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def serialize_complex_obj(obj):
     if isinstance(obj, dict):
@@ -46,4 +48,4 @@ def generate_mdoc():
     return jsonify(serialized_mdoc)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
