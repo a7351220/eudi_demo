@@ -9,7 +9,7 @@ function MdocResultDisplay({ mdocResult, encodedString }) {
     console.error('解析 mdocResult 出错:', error);
     return <div>解析錯誤</div>;
   }
-  // 將 encodedString 从 Base64 解碼為二進制字符串
+  // 將 encodedString 從 Base64 解碼為二進制字符串
   let decodedString = '';
   if (encodedString) {
     decodedString = atob(encodedString);
@@ -19,7 +19,7 @@ function MdocResultDisplay({ mdocResult, encodedString }) {
 
   return (
     <div className="mdoc-container">
-      <h2 className="mdoc-title">mdoc结果</h2>
+      <h2 className="text-xl font-bold mb-2">Mdoc 結果</h2>
       {documents.map((doc, index) => (
         <div key={index} className="mdoc-document">
           <h3>[文檔類型]: {doc.docType}</h3>

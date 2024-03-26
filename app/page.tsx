@@ -10,7 +10,7 @@ export default function Home() {
   const [birthCountry, setBirthCountry] = useState('');
   const [taxIdCode, setTaxIdCode] = useState('');
   const [mdocResult, setMdocResult] = useState('');
-  const [encodedString, setEncodedString] = useState(''); // 新增状态变量用于存储encoded_string的值
+  const [encodedString, setEncodedString] = useState(''); 
   const [verifyMessage, setVerifyMessage] = useState('');
   const [inputIssuedMdoc, setInputIssuedMdoc] = useState('');
 
@@ -65,7 +65,7 @@ export default function Home() {
 
       const data = await response.json();
       setMdocResult(JSON.stringify(data, null, 2));
-      setEncodedString(data.mdoc_base64); // 更新encodedString状态变量
+      setEncodedString(data.mdoc_base64); 
     } catch (error) {
       console.error('Failed to fetch mdoc:', error);
       setMdocResult('Failed to fetch mdoc');
@@ -86,18 +86,30 @@ export default function Home() {
       }
   
       const data = await response.json();
-      alert(data.message); // 使用 alert 弹出验证结果消息
-      setVerifyMessage(data.message); // 也可以选择更新状态变量，显示在页面上
+      alert(data.message);
+      setVerifyMessage(data.message); 
     } catch (error) {
       console.error('Failed to verify mdoc:', error);
       alert('Failed to verify mdoc'); // 使用 alert 彈出錯誤消息
     }
   };
+  const formContainerStyle = mdocResult
+    ? "w-1/2 space-y-4 pr-4" // 如果 mdocResult 有值，表单占据一半宽度
+    : "w-full max-w-4xl space-y-4 pr-4 flex justify-center flex-col items-center"; // 如果 mdocResult 为空，表单居中显示且保持纵向排列
+  // const url = 'https://image-cdn.learnin.tw/bnextmedia/image/album/2023-04/img-1682579322-12881.jpg?w=900&output=webp';
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-3xl font-bold mb-4">發行 MDOC CBOR</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen p-4"
+    style={{
+      backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://image-cdn.learnin.tw/bnextmedia/image/album/2023-04/img-1682579322-12881.jpg?w=900&output=webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      width: '100vw',
+      minHeight: '100vh'
+    }}>
+<h1 className="text-3xl font-bold mb-4 text-white" style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)" }}>發行 Mdoc</h1>
       <div className="flex w-full max-w-4xl">
-        <form onSubmit={handleSubmit} className="w-1/2 space-y-4 pr-4">
+        <form onSubmit={handleSubmit} className={formContainerStyle}>
           <input
             type="text"
             value={familyName}
