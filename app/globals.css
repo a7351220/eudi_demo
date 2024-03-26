@@ -15,7 +15,21 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+/* 添加到你的CSS文件中 */
+@media (max-width: 768px) {
+  .formContainerStyle {
+    width: 100%; /* 在小屏幕上使表單寬度充滿容器 */
+    padding: 0 15px; /* 添加一些內邊距 */
+  }
 
+  h1 {
+    font-size: 1.5rem; /* 在小屏幕上減小標題字體大小 */
+  }
+
+  .input, .button {
+    font-size: 14px; /* 在小屏幕上調整輸入框和按鈕的字體大小 */
+  }
+}
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
