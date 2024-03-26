@@ -10,6 +10,11 @@ export default function Home() {
   const [birthCountry, setBirthCountry] = useState('');
   const [taxIdCode, setTaxIdCode] = useState('');
   const [mdocResult, setMdocResult] = useState('');
+  const [encodedString, setEncodedString] = useState(''); // 新增状态变量用于存储encoded_string的值
+  const [verifyMessage, setVerifyMessage] = useState('');
+  const [inputIssuedMdoc, setInputIssuedMdoc] = useState('');
+
+
   const generateRandomData = () => {
     const randomFamilyName = ['楊', '李', '王'][Math.floor(Math.random() * 3)];
     const randomGivenName = ['小明', '小莫', '小金'][Math.floor(Math.random() * 3)];
@@ -60,12 +65,34 @@ export default function Home() {
 
       const data = await response.json();
       setMdocResult(JSON.stringify(data, null, 2));
+      setEncodedString(data.mdoc_base64); // 更新encodedString状态变量
     } catch (error) {
       console.error('Failed to fetch mdoc:', error);
       setMdocResult('Failed to fetch mdoc');
     }
   };
-
+  const handleVerify = async () => {
+    try {
+      const response = await fetch('/api/verify_mdoc', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ issued_mdoc: inputIssuedMdoc }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      alert(data.message); // 使用 alert 弹出验证结果消息
+      setVerifyMessage(data.message); // 也可以选择更新状态变量，显示在页面上
+    } catch (error) {
+      console.error('Failed to verify mdoc:', error);
+      alert('Failed to verify mdoc'); // 使用 alert 彈出錯誤消息
+    }
+  };
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-3xl font-bold mb-4">發行 MDOC CBOR</h1>
@@ -121,11 +148,25 @@ export default function Home() {
               隨機數據
             </button>
           </div>
+        <input
+          type="text"
+          value={inputIssuedMdoc}
+          onChange={(e) => setInputIssuedMdoc(e.target.value)}
+          placeholder="請輸入 AF Binary string representation"
+          className="w-full p-2 border rounded mb-4"
+        />
+
+        <button type="button" onClick={handleVerify} className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700">
+          驗證 Mdoc
+        </button>
         </form>
 
          {mdocResult && (
-          <MdocResultDisplay mdocResult={mdocResult} />
+          <MdocResultDisplay mdocResult={mdocResult} encodedString={encodedString} />
+
         )}
+
+
         
       </div>
     </main>

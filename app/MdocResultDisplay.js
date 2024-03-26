@@ -1,22 +1,29 @@
 import React from 'react';
 import './MdocResultDisplay.css';
 
-function MdocResultDisplay({ mdocResult }) {
+function MdocResultDisplay({ mdocResult, encodedString }) {
   let result;
   try {
     result = typeof mdocResult === 'string' ? JSON.parse(mdocResult) : mdocResult;
   } catch (error) {
-    console.error('解析 mdocResult 出錯:', error);
+    console.error('解析 mdocResult 出错:', error);
     return <div>解析錯誤</div>;
   }
+  // 將 encodedString 从 Base64 解碼為二進制字符串
+  let decodedString = '';
+  if (encodedString) {
+    decodedString = atob(encodedString);
+  }
+
+  const documents = result.serialized_mdoc.documents;
 
   return (
     <div className="mdoc-container">
-      <h2 className="mdoc-title">mdoc結果</h2>
-      {result.documents.map((doc, index) => (
+      <h2 className="mdoc-title">mdoc结果</h2>
+      {documents.map((doc, index) => (
         <div key={index} className="mdoc-document">
-          <h3>文檔類型: {doc.docType}</h3>
-          <div className="mdoc-section">發行者簽名: <span className="mdoc-data">{doc.issuerSigned.issuerAuth}</span></div>
+          <h3>[文檔類型]: {doc.docType}</h3>
+          <div className="mdoc-section">發布者簽名: <span className="mdoc-data">{doc.issuerSigned.issuerAuth}</span></div>
           <div>
             <h4>命名空間:</h4>
             {Object.entries(doc.issuerSigned.nameSpaces).map(([namespace, elements], nsIndex) => (
@@ -36,8 +43,16 @@ function MdocResultDisplay({ mdocResult }) {
               </div>
             ))}
           </div>
+          
         </div>
       ))}
+      {/* 顯示解碼後的2進位數據 */}
+      {decodedString && (
+        <div className="mt-4 w-full">
+          <h2 className="text-xl font-bold mb-2">AF Binary string representation</h2>
+          <textarea className="w-full p-2 border rounded" value={decodedString} readOnly />
+        </div>
+      )}
     </div>
   );
 }

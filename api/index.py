@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from pymdoccbor.mdoc.issuer import MdocCborIssuer
 from cbor2 import CBORTag
 from flask_cors import CORS
+from pymdoccbor.mdoc.verifier import MdocCbor
 
 app = Flask(__name__)
 CORS(app)
@@ -45,7 +46,32 @@ def generate_mdoc():
     )
 
     serialized_mdoc = serialize_complex_obj(mdoc)
-    return jsonify(serialized_mdoc)
+    af_binary_string = mdoci.dumps()
+    encoded_string = base64.b64encode(af_binary_string).decode('utf-8')
+
+    return jsonify({"serialized_mdoc": serialized_mdoc, "mdoc_base64": encoded_string})
+
+@app.route('/api/verify_mdoc', methods=['POST'])
+def verify_mdoc():
+    # 從請求中獲取 issued_mdoc
+    issued_mdoc_data = request.json.get('issued_mdoc')
+    if not issued_mdoc_data:
+        return jsonify({"error": "Missing issued_mdoc data"}), 400
+
+
+
+    #創建 MDOC 實例
+    mdoc = MdocCbor()
+    mdoc.loads(issued_mdoc_data)
+
+    # 驗證 MDOC
+    is_valid = mdoc.verify()
+
+    # 返回驗證結果
+    if is_valid:
+        return jsonify({"message": "MDOC is valid", "is_valid": True})
+    else:
+        return jsonify({"message": "MDOC is invalid", "is_valid": False})
 
 if __name__ == '__main__':
     app.run()
