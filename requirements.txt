@@ -9,6 +9,7 @@ cwt==2.3.2
 ecdsa==0.18.0
 Flask==2.2.2
 Flask-Cors==4.0.0
+importlib_metadata==7.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.3
 MarkupSafe==2.1.5
@@ -17,7 +18,8 @@ oscrypto @ https://github.com/wbond/oscrypto/archive/d5f3437ed24257895ae1edd9e50
 pycose==1.0.1
 pycparser==2.21
 pyhpke==0.5.2
-pymdoccbor @ git+https://github.com/peppelinux/pyMDOC-CBOR.git@8e2fe13766dcbe1fffcd3436c62b6337dcf2c2b1
+pymdoccbor @ git+https://github.com/a7351220/pyMDOC-CBOR-3.9.git@ad3c7d444ac514afca0a1814bb6781a22405262c
 pyOpenSSL==24.1.0
 six==1.16.0
 Werkzeug==2.2.2
+zipp==3.18.1
